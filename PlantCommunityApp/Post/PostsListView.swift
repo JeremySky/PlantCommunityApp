@@ -9,9 +9,9 @@ struct PostsListView: View {
 //                PostRow(Post.loading())
             } else {
                 VStack(spacing: 60) {
-                    ForEach(posts) { post in
-                        PostRow(post)
-                    }
+//                    ForEach(posts) { post in
+//                        PostRow(post)
+//                    }
                 }
             }
         }
@@ -54,40 +54,3 @@ extension Date {
 
 
 
-//    VStack {
-//        HStack {
-//            Circle()
-//                .frame(width: 44, height: 44)
-//            RoundedRectangle(cornerRadius: 20)
-//                .frame(height: 15)
-//                .padding(.trailing, 150)
-//        }
-//        .padding()
-//        
-//        Rectangle()
-//            .frame(height: 500)
-//        
-//        VStack {
-//            RoundedRectangle(cornerRadius: 20)
-//                .frame(height: 15)
-//            RoundedRectangle(cornerRadius: 20)
-//                .frame(height: 15)
-//        }
-//        .padding()
-//    }
-
-
-/// Image Loading Error View
-//    ZStack {
-//        Rectangle()
-//            .frame(height: 500)
-//            .foregroundStyle(.gray.opacity(0.4))
-//        VStack {
-//            Image(systemName: "exclamationmark.triangle.fill")
-//                .resizable()
-//                .scaledToFit()
-//                .frame(width: 40)
-//                .foregroundStyle(Color.red.opacity(0.9))
-//            Text("Unable to load image")
-//        }
-//    }

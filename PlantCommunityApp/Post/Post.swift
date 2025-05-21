@@ -65,9 +65,7 @@ enum HardinessZone: String, CaseIterable, Codable {
 struct Post: Identifiable, Codable {
     var id: String?
     let authorId: String
-    var authorUsername: String?
-    var authorImageURL: String?
-    let hardinessZone: HardinessZone
+    let hardinessZone: HardinessZone?
     let imageURL: String?
     var caption: String
     let timestamp: Date
@@ -77,14 +75,11 @@ struct Post: Identifiable, Codable {
     var comments: [String]?
     var commentCount: Int
     var isBookmarked: Bool
-    var lineLimit: Int?
     
     init(
         id: String?,
         authorId: String,
-        authorUsername: String?,
-        authorImageURL: String?,
-        hardinessZone: HardinessZone,
+        hardinessZone: HardinessZone?,
         imageURL: String?,
         caption: String,
         timestamp: Date,
@@ -93,13 +88,10 @@ struct Post: Identifiable, Codable {
         tags: [String],
         comments: [String]?,
         commentCount: Int,
-        isBookmarked: Bool,
-        lineLimit: Int?
+        isBookmarked: Bool
     ) {
         self.id = id
         self.authorId = authorId
-        self.authorUsername = authorUsername
-        self.authorImageURL = authorImageURL
         self.hardinessZone = hardinessZone
         self.imageURL = imageURL
         self.caption = caption
@@ -110,7 +102,6 @@ struct Post: Identifiable, Codable {
         self.comments = comments
         self.commentCount = commentCount
         self.isBookmarked = isBookmarked
-        self.lineLimit = lineLimit
     }
 }
 
@@ -120,8 +111,6 @@ extension Post {
         Post(
             id: "abc123",
             authorId: "user001",
-            authorUsername: "ScoobyDoo",
-            authorImageURL: "https://picsum.photos/320",
             hardinessZone: .zone8b,
             imageURL: "https://picsum.photos/1080/1350",
             caption: "Loving the spring growth in zone 8b 🌱",
@@ -131,14 +120,11 @@ extension Post {
             tags: ["spring", "tomatoes", "zone8b"],
             comments: ["Looks great!", "What variety is that?"],
             commentCount: 2,
-            isBookmarked: true,
-            lineLimit: 1
+            isBookmarked: true
         ),
         Post(
             id: "def456",
             authorId: "user002",
-            authorUsername: "desertGrower",
-            authorImageURL: "https://picsum.photos/320",
             hardinessZone: .zone9a,
             imageURL: "https://picsum.photos/1080/580",
             caption: "Trying raised beds this season. Wish me luck!",
@@ -148,8 +134,7 @@ extension Post {
             tags: ["raisedbeds", "gardening", "zone9a"],
             comments: ["Good luck!", "What soil mix did you use?"],
             commentCount: 2,
-            isBookmarked: false,
-            lineLimit: 1
+            isBookmarked: false
         )
     ]
     
@@ -157,9 +142,7 @@ extension Post {
         return Post(
             id: id,
             authorId: UUID().uuidString,
-            authorUsername: "user\(Int.random(in: 1...999))",
-            authorImageURL: "https://picsum.photos/320",
-            hardinessZone: HardinessZone.allCases.randomElement() ?? .zone7a,
+            hardinessZone: HardinessZone.allCases.randomElement(),
             imageURL: "https://picsum.photos/1080/1350",
             caption: "Just planted something new!",
             timestamp: Date(),
@@ -168,8 +151,7 @@ extension Post {
             tags: ["plants", "garden"],
             comments: ["Nice!", "Looking forward to updates."],
             commentCount: 2,
-            isBookmarked: false,
-            lineLimit: 1
+            isBookmarked: false
         )
     }
 }
