@@ -31,46 +31,53 @@ class PostRowViewModel: ObservableObject {
 }
 
 struct PostRow: View {
+    
     @StateObject var vm: PostRowViewModel
-    @State var captionIsExpanded: Bool = false
+    
     let authorUsername: String
     let authorImage: UIImage
     let postImage: UIImage
+    
+    @State var captionIsExpanded: Bool = false
     
     var body: some View {
         
         VStack(spacing: 14) {
             
-            // MARK: -- Header
+            // MARK: - Header -
             HStack {
-                Image(uiImage: authorImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 44, height: 44)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.gray, lineWidth: 2))
+                
+                ProfileImage(authorImage, type: .post)
+                
+                // Username + Hardiness Zone
                 VStack(alignment: .leading) {
+                    
                     Text(authorUsername)
                         .font(.headline)
+                    
                     if let hardinessZone = vm.post.hardinessZone {
                         Text(hardinessZone.rawValue)
                             .font(.subheadline)
                     }
+                    
                 }
+                
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal)
             
             
-            // MARK: -- Content Image
+            // MARK: - Post Image -
             Image(uiImage: postImage)
                 .resizable()
                 .scaledToFill()
                 .frame(maxHeight: 500)
             
             
-            // MARK: -- Actions
+            // MARK: - Actions -
             HStack(spacing: 14) {
+                
+                // MARK: - Like Button + Likes Count
                 HStack {
                     
                     // Like Button
@@ -87,6 +94,8 @@ struct PostRow: View {
                     Button("\(vm.post.likesCount)") {}
                     
                 }
+                
+                // MARK: - Comments Button
                 Button {
                     //
                 } label: {
@@ -97,6 +106,8 @@ struct PostRow: View {
                         Text("\(vm.post.commentCount)")
                     }
                 }
+                
+                // MARK: - Share Button
                 Button {
                     //
                 } label: {
@@ -105,8 +116,11 @@ struct PostRow: View {
                         .frame(width: 24, height: 24)
                 }
                 
+                
                 Spacer()
                 
+                
+                // MARK: - Bookmark Button
                 Button {
                     vm.toggleIsBookmarked()
                 } label: {
@@ -116,23 +130,26 @@ struct PostRow: View {
                         .frame(width: 24, height: 24)
                         .foregroundStyle(vm.isBookmarked ? .blue.opacity(0.8) : .primary)
                 }
+                
             }
             .frame(height: 20)
             .padding(.horizontal)
             .foregroundStyle(.primary)
             
             
-            // MARK: -- Caption
+            // MARK: - Caption + Timestamp -
             VStack(spacing: 10) {
+                
                 Caption(authorUsername, vm.post.caption)
                 
-                // Timestamp
                 Text(vm.post.timestamp.timeAgo())
                     .foregroundStyle(.gray)
                     .font(.caption)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal)
+            
+            
         }
     }
 }
