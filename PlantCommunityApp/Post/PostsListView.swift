@@ -9,9 +9,9 @@ struct PostsListView: View {
 //                PostRow(Post.loading())
             } else {
                 VStack(spacing: 60) {
-//                    ForEach(posts) { post in
-//                        PostRow(post)
-//                    }
+                    ForEach(posts) { post in
+                        PostRow(vm: PostRowViewModel(post: post, isLiked: false, isBookmarked: false), authorUsername: "ASDFASDF", authorImage: UIImage(named: "default_avatar")!, postImage: UIImage(named: "dummy_post_image")!)
+                    }
                 }
             }
         }
@@ -20,7 +20,7 @@ struct PostsListView: View {
 
 #if DEBUG
 #Preview {
-    PostsListView(posts: Post.samplePosts)
+    PostsListView(posts: Array(repeating: Post.generateMock(), count: 4))
 }
 #endif
 

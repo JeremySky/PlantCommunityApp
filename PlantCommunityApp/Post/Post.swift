@@ -144,7 +144,7 @@ extension Post {
             authorId: UUID().uuidString,
             hardinessZone: HardinessZone.allCases.randomElement(),
             imageURL: "https://picsum.photos/1080/1350",
-            caption: "Just planted something new!",
+            caption: "Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿",
             timestamp: Date(),
             likesCount: Int.random(in: 0...100),
             isLiked: Bool.random(),
