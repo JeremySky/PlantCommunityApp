@@ -182,9 +182,9 @@ struct PostRow: View {
     
     
     PostRow(
-        vm: success
-//        vm: loading
-//        vm: failure
+        //        vm: success
+        vm: loading
+        //        vm: failure
     )
 }
 
