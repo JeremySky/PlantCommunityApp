@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 enum HardinessZone: String, CaseIterable, Codable {
     case zone1a = "Zone 1A"
@@ -154,5 +155,8 @@ extension Post {
             isBookmarked: false
         )
     }
+    
+    static let dummyImageFileName: String = "dummy_post_image"
+    static let dummyUIImage: UIImage = UIImage(named: dummyImageFileName)!
 }
 #endif

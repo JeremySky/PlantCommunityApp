@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ProfileImageView: View {
+struct ProfileImage: View {
     let image: UIImage
     let type: ProfileImageType
     
@@ -31,22 +31,22 @@ enum ProfileImageType {
 }
 
 
-extension ProfileImageView {
-    static let defaultAvatarFileName = "default_avatar"
-    static let defaultAvatarUIImage: UIImage = UIImage(named: defaultAvatarFileName)!
+extension ProfileImage {
+    static let defaultFileName = "default_avatar"
+    static let defaultUIImage: UIImage = UIImage(named: defaultFileName)!
     
     #if DEBUG
-    static let dummyAvatarFileName: String = "dummy_profile_image"
-    static let dummyAvatarUIImage: UIImage = UIImage(named: dummyAvatarFileName)!
+    static let dummyFileName: String = "dummy_profile_image"
+    static let dummyUIImage: UIImage = UIImage(named: dummyFileName)!
     #endif
 }
 
-extension ProfileImageView {
-    static func defaultAvatar(for type: ProfileImageType) -> ProfileImageView {
-        ProfileImageView(ProfileImageView.defaultAvatarUIImage, for: type)
+extension ProfileImage {
+    static func defaultAvatar(for type: ProfileImageType) -> ProfileImage {
+        ProfileImage(ProfileImage.defaultUIImage, for: type)
     }
 }
 
 #Preview {
-    ProfileImageView.defaultAvatar(for: .post)
+    ProfileImage.defaultAvatar(for: .post)
 }
