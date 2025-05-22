@@ -1,52 +1,74 @@
 import SwiftUI
 
+class PostsListViewModel: ObservableObject {
+    @Published var posts: Loadable<[Post]>
+    
+    init(posts: Loadable<[Post]> = .loading) {
+        self.posts = posts
+    }
+    
+    func createPostRowViewModel(for post: Post) -> PostRowViewModel {
+        #if DEBUG
+        return PostRowViewModel(
+            post: post,
+            authorUsername: .loaded("UserNo\(Int.random(in: 1...100))"),
+            authorImage: .loaded(ProfileImageView.dummyAvatarUIImage),
+            postImage: .loaded(UIImage(named: "dummy_post_image")!),
+            isLoading: false
+        )
+        #else
+        
+        let vm = PostRowViewModel(post: post)
+        return vm
+        
+        #endif
+    }
+}
+
 struct PostsListView: View {
-    @State var posts: [Post]
-    @State var isLoading: Bool = false
+    @StateObject var vm: PostsListViewModel
+    
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            if isLoading {
-//                PostRow(Post.loading())
-            } else {
+        switch vm.posts {
+        case .loading:
+            ScrollView {
                 VStack(spacing: 60) {
+                    PostRow.placeholder
+                    PostRow.placeholder
+                }
+            }
+        case .loaded(let posts):
+            ScrollView {
+                VStack(spacing: 30) {
                     ForEach(posts) { post in
-                        PostRow(vm: PostRowViewModel(post: post, isLiked: false, isBookmarked: false), authorUsername: "ASDFASDF", authorImage: UIImage(named: "default_avatar")!, postImage: UIImage(named: "dummy_post_image")!)
+                        PostRow(
+                            vm: vm.createPostRowViewModel(for: post)
+                        )
                     }
                 }
+            }
+        case .failed(_):
+            VStack {
+                Image(systemName: "exclamationmark.triangle")
+                Text("Error Loading Posts")
             }
         }
     }
 }
 
-#if DEBUG
+
 #Preview {
-    PostsListView(posts: Array(repeating: Post.generateMock(), count: 4))
+    @Previewable @StateObject var success = PostsListViewModel(posts: .loaded([.generateMock(), .generateMock(), .generateMock(), .generateMock(), .generateMock(), .generateMock()]))
+    @Previewable @StateObject var loading = PostsListViewModel(posts: .loading)
+    @Previewable @StateObject var failed = PostsListViewModel(posts: .failed(URLError(.networkConnectionLost)))
+    
+    PostsListView(
+        vm: success
+//        vm: loading
+//        vm: failed
+    )
 }
-#endif
 
-
-extension Date {
-    func timeAgo() -> String {
-        let now = Date()
-        let secondsAgo = now.timeIntervalSince(self)
-        let oneHour: TimeInterval = 3600
-        let oneDay: TimeInterval = 86400
-        let oneWeek: TimeInterval = oneDay * 7
-
-        if secondsAgo < oneHour {
-            return "Just now"
-        } else if secondsAgo < oneWeek {
-            let formatter = RelativeDateTimeFormatter()
-            formatter.unitsStyle = .full
-            return formatter.localizedString(for: self, relativeTo: now)
-        } else {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            formatter.timeStyle = .none
-            return formatter.string(from: self)
-        }
-    }
-}
 
 
 
