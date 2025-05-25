@@ -139,13 +139,13 @@ extension Post {
         )
     ]
     
-    static func generateMock(id: String? = nil) -> Post {
+    static func generateMock(id: String? = nil, withImage: Bool = true, shortCaption: Bool = false) -> Post {
         return Post(
             id: id ?? UUID().uuidString,
             authorId: UUID().uuidString,
             hardinessZone: HardinessZone.allCases.randomElement(),
-            imageURL: "https://picsum.photos/1080/1350",
-            caption: "Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿Just planted something new! I hope to share more soon... 🌿",
+            imageURL: withImage ? "https://picsum.photos/1080/1350" : nil,
+            caption: shortCaption ? "Just planted something new! I hope to share more soon... 🌿" : "Nothing compares to watching something you planted grow strong. Each leaf, a reminder of patience, care, and quiet progress 🌿",
             timestamp: Date().addingTimeInterval(TimeInterval(-Int.random(in: 0...(86400 * 365)))),
             likesCount: Int.random(in: 0...100),
             isLiked: Bool.random(),
