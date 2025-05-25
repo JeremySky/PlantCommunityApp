@@ -48,13 +48,31 @@ struct PostRow: View {
                 .padding(.horizontal)
                 
                 
-                // MARK: - Post Image -
+                // MARK: - Post Content -
                 switch vm.postImage {
                 case .loaded(let postImage):
-                    Image(uiImage: postImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxHeight: 500)
+                    
+                    
+                    // Image
+                    if let postImage {
+                        Image(uiImage: postImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxHeight: 500)
+                        
+                    // Caption + Timestamp
+                    } else /*if nil*/ {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text(vm.post.caption)
+                            
+                            Text(vm.post.timestamp.timeAgo())
+                                .foregroundStyle(.gray)
+                                .font(.caption)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                    }
+                    
                 default:
                     // Post Image Error
                     ZStack {
@@ -134,19 +152,23 @@ struct PostRow: View {
                 .foregroundStyle(.primary)
                 
                 
+                // if post contains image
                 // MARK: - Caption + Timestamp -
-                VStack(spacing: 10) {
-                    
-                    Caption(authorUsername, vm.post.caption)
-                    
-                    Text(vm.post.timestamp.timeAgo())
-                        .foregroundStyle(.gray)
-                        .font(.caption)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                if vm.post.imageURL != nil {
+                    VStack(spacing: 10) {
+                        
+                        (Text((authorUsername) + " ").fontWeight(.bold) + Text(vm.post.caption))
+                            .expandableCaption()
+                        
+                        Text(vm.post.timestamp.timeAgo())
+                            .foregroundStyle(.gray)
+                            .font(.caption)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
                 
-                
+
             }
             .showCustomAlert(alert: $vm.alert)
         }
@@ -156,13 +178,24 @@ struct PostRow: View {
 
 
 #Preview {
-    @Previewable @StateObject var success = PostRowViewModel(
-        post: .generateMock(),
+    @Previewable @StateObject var successWithImage = PostRowViewModel(
+        post: .generateMock(shortCaption: false),
         isLiked: true,
         isBookmarked: true,
         authorUsername: .loaded("LovesTomatoes"),
         authorImage: .loaded(ProfileImage.dummyUIImage),
         postImage: .loaded(UIImage(named: "dummy_post_image")!),
+        isLoading: false,
+        alert: nil
+    )
+    
+    @Previewable @StateObject var successNoImage = PostRowViewModel(
+        post: .generateMock(withImage: false, shortCaption: true),
+        isLiked: true,
+        isBookmarked: true,
+        authorUsername: .loaded("LovesTomatoes"),
+        authorImage: .loaded(ProfileImage.dummyUIImage),
+        postImage: .loaded(nil),
         isLoading: false,
         alert: nil
     )
@@ -182,9 +215,10 @@ struct PostRow: View {
     
     
     PostRow(
-        //        vm: success
-        vm: loading
-        //        vm: failure
+                        vm: successWithImage
+//        vm: successNoImage
+        //        vm: loading
+        //                vm: failure
     )
 }
 

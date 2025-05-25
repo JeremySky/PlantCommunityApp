@@ -7,7 +7,7 @@ class PostRowViewModel: ObservableObject {
     @Published var isBookmarked: Bool?
     @Published var authorUsername: Loadable<String>
     @Published var authorImage: Loadable<UIImage>
-    @Published var postImage: Loadable<UIImage>
+    @Published var postImage: Loadable<UIImage?>
     @Published var isLoading: Bool
     @Published var alert: CustomAlert?
     
@@ -17,7 +17,7 @@ class PostRowViewModel: ObservableObject {
         isBookmarked: Bool? = nil,
         authorUsername: Loadable<String> = .loading,
         authorImage: Loadable<UIImage> = .loading,
-        postImage: Loadable<UIImage> = .loading,
+        postImage: Loadable<UIImage?> = .loading,
         isLoading: Bool = true,
         alert: CustomAlert? = nil
     ) {
