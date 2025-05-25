@@ -5,21 +5,25 @@ struct PostRow: View {
     @StateObject var vm: PostRowViewModel
     
     var body: some View {
-        // Author Username used in header & caption
-        var authorUsername: String {
-            switch vm.authorUsername {
-            case .loaded(let username):
-                return username
-            default:
-                return "unknown_username"
-            }
-        }
-        
         switch vm.isLoading {
+        // placeholder will show if any properties are still loading...
         case true:
             PostRow.placeholder
+            
+            
+        // handle success cases and failed cases...
         case false:
             VStack(spacing: 10) {
+                // Author Username used in header & caption
+                var authorUsername: String {
+                    switch vm.authorUsername {
+                    case .loaded(let username):
+                        return username
+                        
+                    default:
+                        return "unknown_username"
+                    }
+                }
                 
                 // MARK: - Header -
                 HStack {
@@ -50,18 +54,19 @@ struct PostRow: View {
                 
                 // MARK: - Post Content -
                 switch vm.postImage {
+                    
+                // Success...
                 case .loaded(let postImage):
                     
                     
-                    // Image
                     if let postImage {
                         Image(uiImage: postImage)
                             .resizable()
                             .scaledToFill()
                             .frame(maxHeight: 500)
                         
-                    // Caption + Timestamp
-                    } else /*if nil*/ {
+                        
+                    } else {
                         VStack(alignment: .leading, spacing: 10) {
                             Text(vm.post.caption)
                             
@@ -73,6 +78,8 @@ struct PostRow: View {
                         .padding(.horizontal)
                     }
                     
+                    
+                // Error...
                 default:
                     // Post Image Error
                     ZStack {
@@ -172,7 +179,6 @@ struct PostRow: View {
             }
             .showCustomAlert(alert: $vm.alert)
         }
-        
     }
 }
 
